@@ -1,45 +1,64 @@
-# [Project name]
+# Mallikarjun S Marabasari — Portfolio
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A high-end, design-forward personal portfolio website for Mallikarjun S Marabasari — a CSE fresher actively seeking internship opportunities.
 
 ## Run & Operate
 
+- `pnpm --filter @workspace/portfolio run dev` — run the portfolio (port assigned by workflow)
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React 19 + Vite + Tailwind CSS v4
+- Routing: Wouter
+- Animations: Framer Motion 12
+- Icons: Lucide React + React Icons (SI)
+- Themes: next-themes (dark-first)
+- Loaders: ldrs
+- API: Express 5 (scaffolded, not yet wired to contact form)
+- DB: PostgreSQL + Drizzle ORM (scaffolded)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
-
-## Architecture decisions
-
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- `artifacts/portfolio/src/pages/` — Home, Projects, Education, Contact pages
+- `artifacts/portfolio/src/components/` — SideDock, BottomDock, ThemeToggle, SkillsTicker, ProjectCard
+- `artifacts/portfolio/src/data/portfolio.ts` — All mock content (personal info, skills, projects, education)
+- `artifacts/portfolio/src/index.css` — Full design system CSS vars (dark/light)
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- `/` — Home: animated hero, about, skills ticker, featured projects
+- `/projects` — All projects grid with EduCompass callout
+- `/education` — Education timeline with institution cards
+- `/contact` — Contact form (frontend-only, mocked; shows backend-not-wired notice)
+- SideDock (desktop) + BottomDock (mobile) navigation with active route highlighting
+- Dark/light theme switcher
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Dark-first theme
+- No backend for contact form yet (Nodemailer/Gmail SMTP planned for later)
+- Skills ticker: horizontal scroll with hover-pause + colored tooltip pop
+- EduCompass image: reads from `/public/educompass.png` with graceful fallback
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- `SiCss3` doesn't exist in react-icons/si v5 — use `SiCss` instead
+- react-icons `SiC` works for C language icon
+- Framer Motion AnimatePresence wraps the Switch with mode="wait" for page transitions
+- All CSS vars must be set (no `red` placeholders remain)
 
-## Pointers
+## Adding your photo / EduCompass screenshot
 
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+Place your profile photo at `artifacts/portfolio/public/avatar.jpg` — update the Hero component to use it.
+Place a project screenshot at `artifacts/portfolio/public/educompass.png` — it will automatically load in the EduCompass project card.
+
+## Next: Wiring the contact form backend
+
+Add Gmail SMTP credentials to env:
+- `GMAIL_USER` — your Gmail address
+- `GMAIL_APP_PASSWORD` — 16-char App Password
+Then implement a POST `/api/contact` route in `artifacts/api-server/src/routes/` using Nodemailer.

@@ -1,0 +1,55 @@
+Build me a portfolio website You are a staff-level design-engineer. Build a high-end, multi-page, design-forward portfolio site for “Mallikarjun S Marabasari” using:
+I'm a fresher and I'm actively looking for internship oportunities
+Stack: React 19, React Router, Tailwind CSS 3, Framer Motion 12, ldrs (loaders), lucide-react (icons)
+IA/Routes:
+/ (Home: Hero, About, Skills, Featured Projects)
+/projects (All projects)
+/education
+/contact
+Navigation: A non-typical vertical SideDock on desktop (left side, floating, animated, with tooltips), plus a minimal mobile bottom dock
+Frontend-first: ship production-quality frontend with mock data; leave backend as a template for later (Gmail SMTP via Nodemailer)
+Content (from resume):
+Name: Mallikarjun S Marabasari
+Email: mallikarjunsmarabasari@gmail.com
+LinkedIn: https://www.linkedin.com/in/mallikarjunsmarabasari
+GitHub: https://github.com/mallikarjunmarabasari-cell
+Education:
+BGMIT (B.E. CSE), Mudhol, Bagalkot, Karnataka — 2023–Current, 3rd Year
+BIPS PU Science College, Vidyagiri, Bagalkot — 2023 — 82%
+Adarsha Vidyalaya (RMSA), Navanagar, Bagalkot — 2020 — 84%
+Skills: MERN + PostgreSQL, C (Intermediate), Python (Lower-Intermediate), JS (Lower-Intermediate), implement feature as in image; left to right running cycle (on hover it should stop and a small pop lit the stack with its  original colors )
+Project highlight: EduCompass (PERN, 2025) — “A comprehensive, modern web application designed to help students master their learning by combining resource organization, enforced MCQ assignments, AI-powered summaries, intelligent analytics, and PDF processing with AI content generation.” Link: https://edu-compass-sigma.vercel.app/
+Design system:
+Motion: tasteful micro-interactions, reveal-on-scroll, page transitions, no parallax nausea
+Backgrounds: soft radial tints, optional subtle grid
+Hero: uses an animated profile image (placeholder animated SVG/GIF)—I’ll replace later
+EduCompass image: support an override by placing /public/educompass.png; fallback to a nice placeholder or try fetching a live screenshot
+Accessibility: keyboard focus rings, color contrast, aria labels, semantic headings
+Performance: image lazy-loading, preconnect fonts, minimal JS where possible
+Contact form: UI only; disabled submit or mocked; backend template via Nodemailer Gmail SMTP to be added later (will provide Gmail + 16-char App Password)
+Deliverables:
+Vite app (React 19) with Tailwind configured and routes
+SideDock (desktop) + bottom dock (mobile)
+Components for: Hero, About, Skills, ProjectCard, Sections, Footer
+Data file with mock content pulled from the resume
+Instructions in README for adding EduCompass.png and wiring backend later
+Clean code, no dead files, no class components, no inline styles except where truly useful
+Acceptance criteria:
+Boots locally with npm run dev
+SideDock works with active highlight and tooltips
+Looks premium, cohesive, and feels fast
+Dark-first theme with the provided palette
+Multipage routing works and is animated
+Contact form shows “backend not wired yet” note
+PRD (brief)
+Goal: A premium, lightweight portfolio that showcases Mallikarjun’s skill in modern web stacks and AI-adjacent projects.
+Primary audience: Recruiters, hiring managers, collaborators.
+KPIs: Clarity, polish, fast load, clean navigation, standout hero.
+Home: Hero, About, Skills, Featured Projects
+Projects: All projects
+Education: Timeline/cards
+Contact: Simple form (frontend only)
+Navigation: Vertical SideDock (desktop), bottom dock (mobile)
+Themes: Theme switcher feature;desktop, light, dark 
+Next: Add backend (Nodemailer SMTP), deploy (Vercel/Netlify), custom domain, analytics.
+Surprise me / Come up with a new design rule that shakes the static guidelines of web design,  taking reference of the site: https://labs.ashutoshpatel.me/#hero, https://labs.ashutoshpatel.me, see this person is having two portfolio websites wiring each other, and https://www.zigzagcreative.co/ if you want any info about these sites i can get them.  After completing the full application guide me where i can get the code of this application and help me to deploy this application on render and vercel. 
