@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
-import { personalInfo, projects } from "@/data/portfolio";
-import SkillsTicker from "@/components/SkillsTicker";
+import { personalInfo, projects, skills } from "@/data/portfolio";
+import LanyardBadge from "@/components/LanyardBadge";
 import ProjectCard from "@/components/ProjectCard";
-import BrandStrip from "@/components/BrandStrip";
 import Footer from "@/components/Footer";
 import profileImg from "@assets/em_1778615607242.png";
 
@@ -25,7 +24,6 @@ export default function Home() {
       <section className="relative min-h-screen flex flex-col md:flex-row overflow-hidden">
         {/* Left — portrait */}
         <div className="relative md:w-[48%] min-h-[55vh] md:min-h-screen shrink-0 overflow-hidden">
-          {/* Atmosphere behind image */}
           <div
             className="absolute inset-0"
             style={{
@@ -33,7 +31,6 @@ export default function Home() {
                 "radial-gradient(ellipse 80% 100% at 50% 80%, #0D2F37 0%, #041718 50%, #000 100%)",
             }}
           />
-          {/* Profile photo — cropped head to chest */}
           <img
             src={profileImg}
             alt="Mallikarjun S Marabasari"
@@ -45,15 +42,12 @@ export default function Home() {
               opacity: 0.85,
             }}
           />
-          {/* Right edge fade into content */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background:
-                "linear-gradient(to right, transparent 55%, #050805 100%)",
+              background: "linear-gradient(to right, transparent 55%, #050805 100%)",
             }}
           />
-          {/* Bottom fade */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -65,7 +59,6 @@ export default function Home() {
 
         {/* Right — content */}
         <div className="flex-1 flex flex-col justify-center px-8 md:px-14 pt-28 md:pt-0 pb-20 md:pb-0 relative z-10">
-          {/* Label */}
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -76,7 +69,6 @@ export default function Home() {
             CSE Student &amp; Full-Stack Developer
           </motion.p>
 
-          {/* Main heading */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,7 +86,6 @@ export default function Home() {
             from scratch.
           </motion.h1>
 
-          {/* Sub */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -105,7 +96,6 @@ export default function Home() {
             I design and build MERN + PostgreSQL applications that users love.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -146,7 +136,6 @@ export default function Home() {
             </Link>
           </motion.div>
 
-          {/* Social icons */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -179,9 +168,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* ── BRAND STRIP ─────────────────────────────────────── */}
-      <BrandStrip />
 
       {/* ── ABOUT ───────────────────────────────────────────── */}
       <section className="px-8 md:px-20 py-28 max-w-5xl mx-auto">
@@ -230,9 +216,21 @@ export default function Home() {
         </motion.p>
       </section>
 
-      {/* ── SKILLS TICKER ───────────────────────────────────── */}
-      <section className="py-12 overflow-hidden border-y" style={{ borderColor: "#18FFB015" }}>
-        <SkillsTicker />
+      {/* ── LANYARD SKILLS ──────────────────────────────────── */}
+      <section className="py-8 overflow-hidden border-y" style={{ borderColor: "#18FFB010" }}>
+        <div className="text-center mb-2">
+          <p
+            className="text-xs font-semibold tracking-[0.22em] uppercase"
+            style={{ color: ACCENT }}
+          >
+            Grab &amp; drag the badge
+          </p>
+        </div>
+        <LanyardBadge
+          skills={skills}
+          name={personalInfo.name.split(" ")[0]}
+          role="Full-Stack Developer · CSE"
+        />
       </section>
 
       {/* ── FEATURED PROJECTS ───────────────────────────────── */}
@@ -276,7 +274,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FOOTER (stacked page) ────────────────────────────── */}
+      {/* ── FOOTER ──────────────────────────────────────────── */}
       <Footer />
     </motion.div>
   );
