@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import { personalInfo, projects, skills } from "@/data/portfolio";
-import LanyardBadge from "@/components/LanyardBadge";
+import SkillsLanyard from "@/components/SkillsLanyard";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
 import profileImg from "@assets/em_1778615607242.png";
@@ -21,9 +21,9 @@ export default function Home() {
       style={{ backgroundColor: "#050805" }}
     >
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col md:flex-row overflow-hidden">
+      <section className="relative flex flex-col md:flex-row overflow-hidden" style={{ height: "74vh", minHeight: "520px" }}>
         {/* Left — portrait */}
-        <div className="relative md:w-[48%] min-h-[55vh] md:min-h-screen shrink-0 overflow-hidden">
+        <div className="relative md:w-[45%] h-full shrink-0 overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
@@ -58,7 +58,7 @@ export default function Home() {
         </div>
 
         {/* Right — content */}
-        <div className="flex-1 flex flex-col justify-center px-8 md:px-14 pt-28 md:pt-0 pb-20 md:pb-0 relative z-10">
+        <div className="flex-1 flex flex-col justify-center px-8 md:px-14 pt-24 md:pt-0 pb-10 md:pb-0 relative z-10">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,20 +217,17 @@ export default function Home() {
       </section>
 
       {/* ── LANYARD SKILLS ──────────────────────────────────── */}
-      <section className="py-8 overflow-hidden border-y" style={{ borderColor: "#18FFB010" }}>
-        <div className="text-center mb-2">
+      <section className="py-8 border-y" style={{ borderColor: "#18FFB010" }}>
+        <div className="text-center mb-6">
           <p
-            className="text-xs font-semibold tracking-[0.22em] uppercase"
+            className="text-xs font-semibold tracking-[0.22em] uppercase mb-1"
             style={{ color: ACCENT }}
           >
-            Grab &amp; drag the badge
+            Tech Stack
           </p>
+          <p className="text-[11px] text-muted-foreground">Grab &amp; drag any badge</p>
         </div>
-        <LanyardBadge
-          skills={skills}
-          name={personalInfo.name.split(" ")[0]}
-          role="Full-Stack Developer · CSE"
-        />
+        <SkillsLanyard skills={skills} />
       </section>
 
       {/* ── FEATURED PROJECTS ───────────────────────────────── */}
