@@ -39,7 +39,11 @@ A high-end, design-forward personal portfolio website for Mallikarjun S Marabasa
 
 ## User preferences
 
-- Dark-first theme
+- Dark-first theme (pure black #050805 background)
+- Neon green accent: #18FFB0 — used for labels, links, CTAs, dots
+- Typography: DM Sans (body) + Space Grotesk (headings)
+- Design inspired by evekayser.com.br — split-screen hero, horizontal top nav, large bold type
+- No SideDock — uses TopNav (horizontal) instead
 - No backend for contact form yet (Nodemailer/Gmail SMTP planned for later)
 - Skills ticker: horizontal scroll with hover-pause + colored tooltip pop
 - EduCompass image: reads from `/public/educompass.png` with graceful fallback
@@ -50,6 +54,7 @@ A high-end, design-forward personal portfolio website for Mallikarjun S Marabasa
 - react-icons `SiC` works for C language icon
 - Framer Motion AnimatePresence wraps the Switch with mode="wait" for page transitions
 - All CSS vars must be set (no `red` placeholders remain)
+- TopNav replaces SideDock/BottomDock — no md:pl-20 offset on main
 
 ## Adding your photo / EduCompass screenshot
 

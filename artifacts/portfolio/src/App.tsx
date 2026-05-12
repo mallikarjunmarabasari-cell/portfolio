@@ -1,6 +1,5 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
@@ -8,8 +7,7 @@ import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Education from "@/pages/Education";
 import Contact from "@/pages/Contact";
-import SideDock from "@/components/SideDock";
-import BottomDock from "@/components/BottomDock";
+import TopNav from "@/components/TopNav";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 
@@ -32,28 +30,25 @@ function AnimatedRoutes() {
 
 function Layout() {
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
-      <SideDock />
-      <main className="md:pl-20">
+    <div className="relative min-h-screen bg-background text-foreground" style={{ backgroundColor: "#050805" }}>
+      <TopNav />
+      <main>
         <AnimatedRoutes />
       </main>
-      <BottomDock />
     </div>
   );
 }
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <Layout />
-          </WouterRouter>
-          <Toaster />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+          <Layout />
+        </WouterRouter>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }
 

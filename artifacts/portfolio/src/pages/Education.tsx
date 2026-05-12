@@ -1,117 +1,126 @@
 import { motion } from "framer-motion";
 import { education } from "@/data/portfolio";
-import { GraduationCap, MapPin, Calendar, Award } from "lucide-react";
+import { MapPin, Calendar, Award } from "lucide-react";
+
+const ACCENT = "#18FFB0";
 
 export default function Education() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.4 }}
-      className="min-h-screen px-6 py-20 max-w-3xl mx-auto"
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.35 }}
+      className="min-h-screen pt-28 pb-24 px-8 md:px-20"
+      style={{ backgroundColor: "#050805" }}
     >
-      {/* Header */}
-      <div className="mb-16">
-        <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-6"
-        >
-          <div className="w-8 h-px bg-primary" />
-          <span className="text-xs font-semibold text-primary tracking-widest uppercase">Background</span>
-        </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-4"
-        >
-          Education
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.18 }}
-          className="text-muted-foreground text-base"
-        >
-          A timeline of where the foundation was built — and where it's still being built.
-        </motion.p>
-      </div>
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="mb-20">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-xs font-semibold tracking-[0.2em] uppercase mb-6"
+            style={{ color: ACCENT }}
+          >
+            Background
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display font-bold text-foreground mb-6"
+            style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)", lineHeight: 1.05 }}
+          >
+            Education
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.26 }}
+            className="text-muted-foreground text-base leading-relaxed"
+          >
+            A timeline of where the foundation was built — and where it's still being built.
+          </motion.p>
+        </div>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* Vertical line */}
-        <motion.div
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeInOut" }}
-          className="absolute left-5 top-0 bottom-0 w-px bg-border origin-top"
-        />
+        {/* Timeline */}
+        <div className="relative flex flex-col gap-0">
+          {/* Vertical line */}
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1, delay: 0.4, ease: "easeInOut" }}
+            className="absolute left-[1.1rem] top-4 bottom-4 w-px origin-top"
+            style={{ backgroundColor: `${ACCENT}15` }}
+          />
 
-        <div className="flex flex-col gap-10 relative">
           {education.map((edu, i) => (
             <motion.div
               key={edu.institution}
-              initial={{ opacity: 0, x: -24 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, delay: i * 0.12 }}
-              className="relative flex gap-8"
+              className="relative flex gap-8 pb-14 last:pb-0"
             >
               {/* Dot */}
-              <div className="relative flex-shrink-0 flex items-start pt-1">
+              <div className="shrink-0 pt-1">
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.12, type: "spring" }}
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 z-10 ${
-                    i === 0
-                      ? "border-primary bg-primary/15 text-primary"
-                      : "border-border bg-card text-muted-foreground"
-                  }`}
+                  transition={{ type: "spring", delay: 0.3 + i * 0.12 }}
+                  className="w-9 h-9 rounded-full flex items-center justify-center z-10 relative"
+                  style={{
+                    backgroundColor: i === 0 ? `${ACCENT}15` : "#111",
+                    border: `1px solid ${i === 0 ? ACCENT : "#1e1e1e"}`,
+                  }}
                 >
-                  <GraduationCap size={17} />
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: i === 0 ? ACCENT : "#333" }}
+                  />
                 </motion.div>
               </div>
 
               {/* Card */}
               <motion.div
-                whileHover={{ x: 4 }}
+                whileHover={{ x: 6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className={`flex-1 rounded-2xl border p-5 mb-2 ${
-                  i === 0
-                    ? "border-primary/30 bg-primary/5"
-                    : "border-border bg-card"
-                }`}
+                className="flex-1 rounded-2xl p-6 border transition-all duration-300"
+                style={{
+                  borderColor: i === 0 ? `${ACCENT}20` : "#1a1a1a",
+                  backgroundColor: i === 0 ? `${ACCENT}05` : "#0a0a0a",
+                }}
               >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="font-semibold text-foreground text-base leading-tight">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h3 className="font-display font-semibold text-foreground text-lg">
                     {edu.institution}
                   </h3>
                   {i === 0 && (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary shrink-0">
+                    <span
+                      className="text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 tracking-wider uppercase"
+                      style={{ backgroundColor: `${ACCENT}20`, color: ACCENT }}
+                    >
                       Current
                     </span>
                   )}
                 </div>
-
-                <p className="text-sm font-medium text-muted-foreground mb-3">{edu.degree}</p>
-
-                <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+                <p className="text-sm font-medium text-muted-foreground mb-4">{edu.degree}</p>
+                <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <Calendar size={11} className="shrink-0" />
+                    <Calendar size={11} />
                     {edu.year}
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <MapPin size={11} className="shrink-0" />
+                    <MapPin size={11} />
                     {edu.location}
                   </div>
                   {edu.details && (
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Award size={11} className="shrink-0" />
+                      <Award size={11} />
                       {edu.details}
                     </div>
                   )}
@@ -121,20 +130,6 @@ export default function Education() {
           ))}
         </div>
       </div>
-
-      {/* Quote block */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="mt-20 p-6 rounded-2xl border border-border bg-card text-center"
-      >
-        <p className="text-muted-foreground text-sm italic leading-relaxed">
-          "The best way to predict the future is to build it."
-        </p>
-        <p className="text-xs text-muted-foreground/50 mt-2">— Alan Kay</p>
-      </motion.div>
     </motion.div>
   );
 }
