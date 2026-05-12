@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { path: "/projects", label: "Projects" },
+  { path: "/projects",  label: "Projects"  },
   { path: "/education", label: "Education" },
-  { path: "/contact", label: "Contact" },
+  { path: "/contact",   label: "Contact"   },
 ];
 
 export default function TopNav() {
@@ -22,10 +22,10 @@ export default function TopNav() {
         className="fixed top-0 left-0 right-0 z-50"
       >
         <div className="flex items-center justify-between px-6 md:px-10 py-5">
-          {/* Logo */}
+          {/* Logo → back to splash */}
           <Link href="/">
             <motion.span
-              whileHover={{ opacity: 0.8 }}
+              whileHover={{ opacity: 0.7 }}
               className="font-display font-bold text-lg text-foreground tracking-tight cursor-pointer"
               data-testid="nav-logo"
             >
@@ -51,7 +51,6 @@ export default function TopNav() {
               </Link>
             ))}
 
-            {/* Available badge */}
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
               <motion.span
                 animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
@@ -83,7 +82,7 @@ export default function TopNav() {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-40 pt-20 px-6 bg-black/95 backdrop-blur-xl md:hidden flex flex-col gap-2"
         >
-          <Link href="/" onClick={() => setMobileOpen(false)}>
+          <Link href="/home" onClick={() => setMobileOpen(false)}>
             <div className="py-4 text-2xl font-semibold font-display border-b border-white/5">Home</div>
           </Link>
           {navLinks.map((link) => (

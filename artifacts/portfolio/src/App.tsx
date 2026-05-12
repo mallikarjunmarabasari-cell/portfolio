@@ -1,25 +1,25 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AnimatePresence } from "framer-motion";
 import NotFound from "@/pages/not-found";
+import Splash from "@/pages/Splash";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Education from "@/pages/Education";
 import Contact from "@/pages/Contact";
 import TopNav from "@/components/TopNav";
 import VerticalStrip from "@/components/VerticalStrip";
-import { AnimatePresence } from "framer-motion";
-import { useLocation } from "wouter";
 
 const queryClient = new QueryClient();
 
-function AnimatedRoutes() {
+function PortfolioRoutes() {
   const [location] = useLocation();
   return (
     <AnimatePresence mode="wait">
       <Switch key={location}>
-        <Route path="/" component={Home} />
+        <Route path="/home" component={Home} />
         <Route path="/projects" component={Projects} />
         <Route path="/education" component={Education} />
         <Route path="/contact" component={Contact} />
@@ -29,14 +29,24 @@ function AnimatedRoutes() {
   );
 }
 
-function Layout() {
+function AppContent() {
+  const [location] = useLocation();
+  const isSplash = location === "/";
+
+  if (isSplash) {
+    return (
+      <AnimatePresence mode="wait">
+        <Splash key="splash" />
+      </AnimatePresence>
+    );
+  }
+
   return (
-    <div className="relative min-h-screen bg-background text-foreground" style={{ backgroundColor: "#050805" }}>
+    <div className="relative min-h-screen" style={{ backgroundColor: "#050805" }}>
       <TopNav />
       <VerticalStrip />
-      {/* Offset right content so strip doesn't overlap */}
       <main className="lg:pr-9">
-        <AnimatedRoutes />
+        <PortfolioRoutes />
       </main>
     </div>
   );
@@ -47,7 +57,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Layout />
+          <AppContent />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
