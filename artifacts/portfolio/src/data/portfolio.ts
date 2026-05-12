@@ -50,7 +50,7 @@ export const education = [
 export const skills = [
   { name: "React", icon: SiReact, color: "#61DAFB", level: "Advanced" },
   { name: "Node.js", icon: SiNodedotjs, color: "#339933", level: "Advanced" },
-  { name: "Express.js", icon: SiExpress, color: "#888888", level: "Advanced", darkColor: "#ffffff" },
+  { name: "Express.js", icon: SiExpress, color: "#888888", level: "Advanced" },
   { name: "MongoDB", icon: SiMongodb, color: "#47A248", level: "Advanced" },
   { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", level: "Advanced" },
   { name: "TypeScript", icon: SiTypescript, color: "#3178C6", level: "Intermediate" },
@@ -73,38 +73,5 @@ export const projects = [
     year: "2025",
     image: "/educompass.png",
     featured: true
-  },
-  {
-    id: "taskflow",
-    title: "TaskFlow Pro",
-    description: "A real-time collaborative task management tool with drag-and-drop kanban boards, role-based access control, and activity tracking.",
-    tech: ["MongoDB", "Express", "React", "Node.js", "Socket.io"],
-    link: "#",
-    github: "https://github.com/mallikarjunmarabasari-cell",
-    year: "2024",
-    image: null,
-    featured: true
-  },
-  {
-    id: "weathersense",
-    title: "WeatherSense",
-    description: "Location-based weather dashboard with interactive maps, 7-day forecasting, and extreme weather alerts using external APIs.",
-    tech: ["React", "TypeScript", "Tailwind", "OpenWeather API"],
-    link: "#",
-    github: "https://github.com/mallikarjunmarabasari-cell",
-    year: "2024",
-    image: null,
-    featured: false
-  },
-  {
-    id: "chat-sync",
-    title: "ChatSync",
-    description: "End-to-end encrypted messaging application with support for media sharing, group chats, and online status indicators.",
-    tech: ["MERN", "Socket.io", "WebRTC", "JWT Auth"],
-    link: "#",
-    github: "https://github.com/mallikarjunmarabasari-cell",
-    year: "2023",
-    image: null,
-    featured: false
   }
 ];

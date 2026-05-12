@@ -15,7 +15,7 @@ export default function Projects() {
       className="min-h-screen pt-28 pb-24 px-8 md:px-20"
       style={{ backgroundColor: "#050805" }}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-20">
           <motion.p
@@ -42,8 +42,7 @@ export default function Projects() {
             transition={{ delay: 0.26 }}
             className="text-muted-foreground text-base max-w-xl leading-relaxed"
           >
-            Things I've built, shipped, and learned from — ranging from full AI-powered platforms
-            to real-time collaborative tools.
+            What I've built and shipped — starting with my flagship AI education platform.
           </motion.p>
         </div>
 
@@ -62,10 +61,10 @@ export default function Projects() {
         >
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: ACCENT }}>
-              Flagship Project
+              Flagship Project · Live
             </p>
             <p className="font-display font-semibold text-foreground text-lg">
-              EduCompass — Live on Vercel
+              EduCompass
             </p>
             <p className="text-sm text-muted-foreground mt-1">
               edu-compass-sigma.vercel.app
@@ -79,12 +78,25 @@ export default function Projects() {
           </div>
         </motion.a>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Single project card */}
+        <div className="flex flex-col gap-6">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
         </div>
+
+        {/* Coming soon note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-16 text-center"
+        >
+          <p className="text-xs text-muted-foreground tracking-widest uppercase">
+            More projects coming soon
+          </p>
+        </motion.div>
       </div>
     </motion.div>
   );
