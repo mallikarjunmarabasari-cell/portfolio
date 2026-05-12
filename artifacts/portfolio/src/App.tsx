@@ -8,6 +8,7 @@ import Projects from "@/pages/Projects";
 import Education from "@/pages/Education";
 import Contact from "@/pages/Contact";
 import TopNav from "@/components/TopNav";
+import VerticalStrip from "@/components/VerticalStrip";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 
@@ -32,7 +33,9 @@ function Layout() {
   return (
     <div className="relative min-h-screen bg-background text-foreground" style={{ backgroundColor: "#050805" }}>
       <TopNav />
-      <main>
+      <VerticalStrip />
+      {/* Offset right content so strip doesn't overlap */}
+      <main className="lg:pr-9">
         <AnimatedRoutes />
       </main>
     </div>
