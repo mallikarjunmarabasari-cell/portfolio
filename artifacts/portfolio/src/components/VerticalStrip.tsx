@@ -1,61 +1,63 @@
-import { motion } from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
 
 const items = [
-  "MERN STACK",
+  "CREATIVE THINKER",
   "·",
-  "REACT",
+  "PROBLEM SOLVER",
   "·",
-  "NODE.JS",
+  "FAST LEARNER",
   "·",
-  "POSTGRESQL",
+  "DETAIL ORIENTED",
   "·",
-  "OPEN TO INTERNSHIPS",
+  "TEAM PLAYER",
   "·",
-  "FULL-STACK DEV",
+  "AVAILABLE FOR WORK",
   "·",
-  "AI INTEGRATION",
+  "PASSIONATE ABOUT CODE",
   "·",
-  "TYPESCRIPT",
+  "BUILDING REAL IMPACT",
   "·",
-  "REST APIs",
+  "OPEN TO OPPORTUNITIES",
   "·",
-  "MERN STACK",
+  "CREATIVE THINKER",
   "·",
-  "REACT",
+  "PROBLEM SOLVER",
   "·",
-  "NODE.JS",
+  "FAST LEARNER",
   "·",
-  "POSTGRESQL",
+  "DETAIL ORIENTED",
   "·",
-  "OPEN TO INTERNSHIPS",
+  "TEAM PLAYER",
   "·",
-  "FULL-STACK DEV",
+  "AVAILABLE FOR WORK",
   "·",
-  "AI INTEGRATION",
+  "PASSIONATE ABOUT CODE",
   "·",
-  "TYPESCRIPT",
+  "BUILDING REAL IMPACT",
   "·",
-  "REST APIs",
+  "OPEN TO OPPORTUNITIES",
   "·",
 ];
 
 export default function VerticalStrip() {
+  const { scrollYProgress } = useScroll();
+
+  // As user scrolls from 0→1, strip moves up by ~260px
+  const y = useTransform(scrollYProgress, [0, 1], ["0px", "-260px"]);
+
   return (
     <div
       className="hidden lg:flex fixed right-0 top-0 bottom-0 z-40 flex-col items-center overflow-hidden"
       style={{
         width: "36px",
         backgroundColor: "#ffffff",
-        borderLeft: "1px solid #e5e5e5",
+        borderLeft: "1px solid #e0e0e0",
       }}
       aria-hidden="true"
     >
-      {/* Scroll upward — two copies for seamless loop */}
       <motion.div
-        animate={{ y: ["0%", "-50%"] }}
-        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-        className="flex flex-col items-center gap-5 py-5"
-        style={{ width: "36px" }}
+        style={{ y, width: "36px" }}
+        className="flex flex-col items-center gap-6 pt-6 pb-10"
       >
         {items.map((item, i) => (
           <span
@@ -65,8 +67,8 @@ export default function VerticalStrip() {
               writingMode: "vertical-rl",
               textOrientation: "mixed",
               transform: "rotate(180deg)",
-              fontSize: item === "·" ? "10px" : "9px",
-              letterSpacing: item === "·" ? "0" : "0.18em",
+              fontSize: item === "·" ? "11px" : "8.5px",
+              letterSpacing: item === "·" ? "0" : "0.2em",
               color: item === "·" ? "#18FFB0" : "#050805",
               lineHeight: 1,
               whiteSpace: "nowrap",
