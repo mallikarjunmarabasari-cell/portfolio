@@ -76,14 +76,14 @@ export default function Home() {
             className="font-display font-bold leading-[1.0] text-foreground mb-6"
             style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
           >
-            Building{" "}
+            Turning ideas
+            <br />
+            into{" "}
             <span className="italic font-medium" style={{ color: ACCENT }}>
-              real-world
+              products
             </span>
             <br />
-            applications
-            <br />
-            from scratch.
+            people love.
           </motion.h1>
 
           <motion.p

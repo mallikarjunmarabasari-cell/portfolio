@@ -1,19 +1,19 @@
-import { useRef, useEffect, useCallback, ElementType } from "react";
+import { useRef, useEffect, useCallback, ElementType, useState } from "react";
 import { motion, animate, useMotionValue } from "framer-motion";
 
 const ACCENT = "#18FFB0";
 
-const CONTAINER_W = 82;
-const BADGE_W = 70;
-const BADGE_OFFSET_L = (CONTAINER_W - BADGE_W) / 2; // 6px
-const ANCHOR_X = CONTAINER_W / 2;                   // 41px
-const ANCHOR_Y = 18;                                 // rope start (mid-bar)
-const BADGE_TOP_Y = 108;                             // rope end / badge top
-const CLIP_H = 20;                                   // clip + hole height above card
+const CONTAINER_W = 86;
+const GAP = 12;
+const BADGE_W = 72;
+const BADGE_OFFSET_L = (CONTAINER_W - BADGE_W) / 2;
+const ANCHOR_X = CONTAINER_W / 2;
+const ANCHOR_Y = 16;
+const BADGE_TOP_Y = 110;
 
 type Skill = { name: string; icon: ElementType; color: string; level: string };
 
-function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
+function SingleLanyard({ skill }: { skill: Skill }) {
   const pathRef = useRef<SVGPathElement>(null);
   const xVal = useMotionValue(0);
   const isDragging = useRef(false);
@@ -22,12 +22,11 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
   const updateRope = useCallback((x: number) => {
     if (!pathRef.current) return;
     const endX = ANCHOR_X + x;
-    const endY = BADGE_TOP_Y;
-    const cpX = ANCHOR_X + x * 0.35;
-    const cpY = ANCHOR_Y + (endY - ANCHOR_Y) * 0.5;
+    const cpX = ANCHOR_X + x * 0.38;
+    const cpY = ANCHOR_Y + (BADGE_TOP_Y - ANCHOR_Y) * 0.5;
     pathRef.current.setAttribute(
       "d",
-      `M ${ANCHOR_X} ${ANCHOR_Y} Q ${cpX} ${cpY} ${endX} ${endY}`
+      `M ${ANCHOR_X} ${ANCHOR_Y} Q ${cpX} ${cpY} ${endX} ${BADGE_TOP_Y}`
     );
   }, []);
 
@@ -50,7 +49,7 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
     (e: React.PointerEvent) => {
       if (!isDragging.current) return;
       const raw = e.clientX - startClientX.current;
-      xVal.set(Math.max(-130, Math.min(130, raw)));
+      xVal.set(Math.max(-120, Math.min(120, raw)));
     },
     [xVal]
   );
@@ -64,19 +63,15 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
   const Icon = skill.icon;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay }}
+    <div
       className="relative shrink-0"
-      style={{ width: CONTAINER_W, height: 200, overflow: "visible" }}
+      style={{ width: CONTAINER_W, height: 195, overflow: "visible" }}
     >
-      {/* Rope SVG */}
+      {/* Rope */}
       <svg
         aria-hidden
         className="absolute pointer-events-none"
-        style={{ top: 0, left: 0, width: CONTAINER_W, height: 200, overflow: "visible" }}
+        style={{ top: 0, left: 0, width: CONTAINER_W, height: 195, overflow: "visible" }}
       >
         <path
           ref={pathRef}
@@ -88,10 +83,7 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
       </svg>
 
       {/* Badge */}
-      <div
-        className="absolute"
-        style={{ left: BADGE_OFFSET_L, top: BADGE_TOP_Y }}
-      >
+      <div className="absolute" style={{ left: BADGE_OFFSET_L, top: BADGE_TOP_Y }}>
         <motion.div
           style={{ x: xVal }}
           className="cursor-grab active:cursor-grabbing touch-none select-none"
@@ -99,7 +91,7 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
-          whileTap={{ scale: 1.06 }}
+          whileTap={{ scale: 1.07 }}
         >
           {/* Clip bow */}
           <div className="flex justify-center">
@@ -126,7 +118,6 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
               }}
             />
           </div>
-
           {/* Card */}
           <div
             className="rounded-xl flex flex-col items-center gap-2 pt-3 pb-2.5 px-2 mt-0.5"
@@ -152,43 +143,53 @@ function SingleLanyard({ skill, delay }: { skill: Skill; delay: number }) {
           </div>
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function SkillsLanyard({ skills }: { skills: Skill[] }) {
-  return (
-    <div className="relative w-full">
-      {/* Horizontal mounting bar */}
-      <div
-        className="absolute left-0 right-0 top-0 z-10"
-        style={{ height: "10px", backgroundColor: "#181818", boxShadow: "0 2px 12px #00000080" }}
-      />
-      {/* Screws on the bar */}
-      {[10, 30, 50, 70, 90].map((pct) => (
-        <div
-          key={pct}
-          className="absolute top-0 z-20 flex items-center justify-center"
-          style={{
-            left: `${pct}%`,
-            width: 10,
-            height: 10,
-            borderRadius: "50%",
-            backgroundColor: "#222",
-            border: "1px solid #2e2e2e",
-          }}
-        />
-      ))}
+  const [paused, setPaused] = useState(false);
+  // Duplicate for seamless loop
+  const doubled = [...skills, ...skills];
+  // Each unit width = CONTAINER_W + GAP
+  const unitW = CONTAINER_W + GAP;
+  // Total width of one full set
+  const totalW = skills.length * unitW;
 
-      {/* Lanyard row */}
+  return (
+    <div
+      className="relative w-full overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Mounting bar */}
       <div
-        className="flex flex-wrap justify-center gap-x-3 gap-y-6 pt-2 pb-8 px-4"
-        style={{ paddingTop: "2px" }}
+        className="absolute left-0 right-0 top-4 z-10 pointer-events-none"
+        style={{ height: "8px", backgroundColor: "#181818", boxShadow: "0 2px 10px #00000070" }}
+      />
+
+      {/* Scrolling row */}
+      <motion.div
+        className="flex pt-2 pb-6"
+        style={{ gap: GAP, width: "max-content" }}
+        animate={{ x: paused ? undefined : [0, -totalW] }}
+        transition={
+          paused
+            ? {}
+            : {
+                x: {
+                  duration: 22,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatType: "loop",
+                },
+              }
+        }
       >
-        {skills.map((skill, i) => (
-          <SingleLanyard key={skill.name} skill={skill} delay={i * 0.05} />
+        {doubled.map((skill, i) => (
+          <SingleLanyard key={`${skill.name}-${i}`} skill={skill} />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
