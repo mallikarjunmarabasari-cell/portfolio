@@ -61,11 +61,12 @@ function SingleLanyard({ skill }: { skill: Skill }) {
   }, [xVal]);
 
   const Icon = skill.icon;
+  const zVal = SVGTransform(xVal, [-120, 0, 120], [-12, 0, -12]);
 
   return (
     <div
       className="relative shrink-0"
-      style={{ width: CONTAINER_W, height: 195, overflow: "visible" }}
+      style={{ width: CONTAINER_W, height: 195, overflow: "visible", perspective: 700 }}
     >
       {/* Rope */}
       <svg
@@ -85,7 +86,7 @@ function SingleLanyard({ skill }: { skill: Skill }) {
       {/* Badge */}
       <div className="absolute" style={{ left: BADGE_OFFSET_L, top: BADGE_TOP_Y }}>
         <motion.div
-          style={{ x: xVal }}
+          style={{ x: xVal, z: zVal, transformStyle: "preserve-3d" }}
           className="cursor-grab active:cursor-grabbing touch-none select-none"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}

@@ -68,7 +68,7 @@ export default function VerticalStrip() {
               textOrientation: "mixed",
               transform: "rotate(180deg)",
               fontSize: item === "·" ? "11px" : "10px",
-              fontWeight: item === "." ? "normal":"bold",
+              fontWeight: item === "." ? "normal":"bolder",
               letterSpacing: item === "·" ? "0" : "0.2em",
               color: item === "·" ? "#18FFB0" : "#050805",
               lineHeight: 1,
