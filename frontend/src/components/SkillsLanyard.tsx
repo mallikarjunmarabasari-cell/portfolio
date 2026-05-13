@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback, ElementType, useState } from "react";
-import { motion, animate, useMotionValue } from "framer-motion";
+import { motion, animate, useMotionValue, useTransform } from "framer-motion";
 
 const ACCENT = "#18FFB0";
 
