@@ -34,7 +34,7 @@ function HelixLoader() {
           className="font-display font-bold tracking-tight mb-1"
           style={{ fontSize: "clamp(1.6rem, 4vw, 3rem)", color: "#e8e8e8" }}
         >
-          Mallikarjun<span style={{ color: ACCENT }}>.</span>
+          MSM<span style={{ color: ACCENT }}>.</span>
         </div>
         <p
           className="text-[11px] tracking-[0.25em] uppercase"
@@ -54,15 +54,6 @@ function HelixLoader() {
         <l-helix size="72" speed="2.6" color={ACCENT} />
       </motion.div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-        className="text-[10px] font-medium tracking-[0.35em] uppercase"
-        style={{ color: "#2a2a2a" }}
-      >
-        Entering portfolio
-      </motion.p>
     </div>
   );
 }
@@ -80,8 +71,8 @@ export default function Splash() {
       key="splash"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      exit={{ y: "-100%", transition: { duration: 0.65, ease: [0.76, 0, 0.24, 1] } }}
+      transition={{ duration: 0.35 }}
       className="fixed inset-0 flex flex-col"
       style={{ backgroundColor: "#050805", zIndex: 100 }}
     >
@@ -94,7 +85,7 @@ export default function Splash() {
           className="font-display font-bold text-base tracking-tight"
           style={{ color: "#e8e8e8" }}
         >
-          M<span style={{ color: ACCENT }}>.</span>
+          MSM<span style={{ color: ACCENT }}>.</span>
         </span>
         <span
           className="text-[10px] tracking-[0.3em] uppercase"

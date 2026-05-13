@@ -220,12 +220,11 @@ export default function Home() {
       <section className="py-8 border-y" style={{ borderColor: "#18FFB010" }}>
         <div className="text-center mb-6">
           <p
-            className="text-xs font-semibold tracking-[0.22em] uppercase mb-1"
+            className="text-xs font-semibold tracking-[0.22em] uppercase"
             style={{ color: ACCENT }}
           >
             Tech Stack
           </p>
-          <p className="text-[11px] text-muted-foreground">Grab &amp; drag any badge</p>
         </div>
         <SkillsLanyard skills={skills} />
       </section>
@@ -264,7 +263,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 max-w-2xl">
           {featuredProjects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
