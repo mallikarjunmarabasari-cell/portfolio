@@ -61,7 +61,7 @@ function SingleLanyard({ skill }: { skill: Skill }) {
   }, [xVal]);
 
   const Icon = skill.icon;
-  const zVal = SVGTransform(xVal, [-120, 0, 120], [-12, 0, -12]);
+  const zVal = useTransform(xVal, [-120, 0, 120], [-12, 0, -12]);
 
   return (
     <div
