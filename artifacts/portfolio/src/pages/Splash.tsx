@@ -91,7 +91,7 @@ export default function Splash() {
           className="text-[10px] tracking-[0.3em] uppercase"
           style={{ color: "#2e2e2e" }}
         >
-          Portfolio · 2025
+          2026
         </span>
       </div>
 

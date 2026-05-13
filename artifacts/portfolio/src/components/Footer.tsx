@@ -167,9 +167,6 @@ export default function Footer() {
         <p className="text-xs" style={{ color: "#ffffff20" }}>
           © {year} Mallikarjun S Marabasari
         </p>
-        <p className="text-xs" style={{ color: "#ffffff15" }}>
-          Designed &amp; developed by Mallikarjun
-        </p>
       </div>
     </footer>
   );
