@@ -5,7 +5,7 @@ import { personalInfo, projects, skills } from "@/data/portfolio";
 import SkillsLanyard from "@/components/SkillsLanyard";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
-import profileImg from "@assets/em.png";
+import profileImg from "/em.png?url";
 
 const ACCENT = "#18FFB0";
 

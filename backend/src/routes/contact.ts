@@ -1,55 +1,52 @@
 import { Router } from "express";
 import nodemailer from "nodemailer";
+import { logger } from "../lib/logger";
 
 const router = Router();
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
-
 router.post("/contact", async (req, res) => {
-  const { name, email, subject, message } = req.body as {
-    name?: string;
-    email?: string;
-    subject?: string;
-    message?: string;
-  };
+  const { name, email, subject, message } = req.body ?? {};
 
-  if (!name || !email || !subject || !message) {
-    res.status(400).json({ error: "All fields are required." });
-    return;
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Missing required fields" });
   }
 
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+
+  if (!user || !pass) {
+    logger.error({ user, pass: !!pass }, "Missing Gmail credentials");
+    return res.status(500).json({ error: "Mail configuration missing on server" });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 10_000,
+  });
+
   try {
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+    // optional verify (may add a small delay)
+    await transporter.verify();
+
+    const info = await transporter.sendMail({
+      from: `${name} <${user}>`,
+      to: user,
+      subject: subject || `New contact from ${name}`,
       replyTo: email,
-      subject: `[Portfolio] ${subject}`,
-      html: `
-        <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#0a0a0a;color:#e8e8e8;border-radius:12px;">
-          <h2 style="margin:0 0 4px;color:#18FFB0;font-size:20px;">New message from your portfolio</h2>
-          <p style="margin:0 0 24px;color:#555;font-size:12px;text-transform:uppercase;letter-spacing:0.15em;">via mallikarjun.dev</p>
-          <table style="width:100%;border-collapse:collapse;">
-            <tr><td style="padding:8px 0;color:#888;font-size:13px;width:80px;">From</td><td style="padding:8px 0;font-size:13px;">${name}</td></tr>
-            <tr><td style="padding:8px 0;color:#888;font-size:13px;">Email</td><td style="padding:8px 0;font-size:13px;"><a href="mailto:${email}" style="color:#18FFB0;">${email}</a></td></tr>
-            <tr><td style="padding:8px 0;color:#888;font-size:13px;">Subject</td><td style="padding:8px 0;font-size:13px;">${subject}</td></tr>
-          </table>
-          <hr style="border:none;border-top:1px solid #1a1a1a;margin:20px 0;" />
-          <p style="font-size:14px;line-height:1.7;color:#ccc;white-space:pre-wrap;">${message}</p>
-        </div>
-      `,
+      text: message,
+      html: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p><strong>Message:</strong></p><p>${message}</p>`,
     });
 
-    req.log.info({ from: email }, "Contact email sent");
-    res.json({ ok: true });
+    logger.info({ messageId: info.messageId }, "Contact email sent");
+    return res.json({ ok: true });
   } catch (err) {
-    req.log.error({ err }, "Failed to send contact email");
-    res.status(500).json({ error: "Failed to send message. Please try again." });
+    logger.error({ err }, "Error sending contact email");
+    return res.status(502).json({ error: "Failed to send message" });
   }
 });
 

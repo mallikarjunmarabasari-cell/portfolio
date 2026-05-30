@@ -24,8 +24,14 @@ export default function Contact() {
       });
 
       if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        throw new Error(payload?.error || "Failed to send message.");
+        let payload: any = null;
+        try {
+          payload = await response.json();
+        } catch (e) {
+          payload = null;
+        }
+
+        throw new Error(payload?.error || payload?.message || "Failed to send message.");
       }
 
       setSubmitted(true);
