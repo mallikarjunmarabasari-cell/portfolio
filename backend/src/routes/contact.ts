@@ -1,6 +1,5 @@
 import { Router } from "express";
 import nodemailer from "nodemailer";
-import sendgrid from "@sendgrid/mail";
 import { logger } from "../lib/logger";
 
 const router = Router();
@@ -14,7 +13,6 @@ router.post("/contact", async (req, res) => {
 
   const mailRecipient = process.env.MAIL_RECIPIENT || process.env.GMAIL_USER;
   const mailSender = process.env.MAIL_SENDER || process.env.GMAIL_USER;
-  const sendgridKey = process.env.SENDGRID_API_KEY;
   const gmailUser = process.env.GMAIL_USER;
   const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
@@ -23,40 +21,16 @@ router.post("/contact", async (req, res) => {
     return res.status(500).json({ error: "Mail configuration missing on server" });
   }
 
+  if (!gmailUser || !gmailPass) {
+    logger.error({ gmailUser, gmailPass: !!gmailPass }, "Gmail SMTP is not configured");
+    return res.status(500).json({ error: "Gmail SMTP credentials are not configured" });
+  }
+
   const subjectLine = subject?.trim() || `New contact from ${name}`;
   const textBody = `From: ${name} <${email}>
 
 ${message}`;
   const htmlBody = `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p><strong>Message:</strong></p><p>${message}</p>`;
-
-  if (sendgridKey) {
-    sendgrid.setApiKey(sendgridKey);
-
-    try {
-      const response = await sendgrid.send({
-        to: mailRecipient,
-        from: mailSender,
-        replyTo: email,
-        subject: subjectLine,
-        text: textBody,
-        html: htmlBody,
-      });
-
-      logger.info({ provider: "sendgrid", status: response[0].statusCode }, "Contact email sent via SendGrid");
-      return res.json({ ok: true });
-    } catch (err) {
-      logger.error({ err, provider: "sendgrid" }, "SendGrid email failed");
-      return res.status(502).json({ error: "Failed to send message via SendGrid" });
-    }
-  }
-
-  if (!gmailUser || !gmailPass) {
-    logger.error(
-      { sendgridKey: !!sendgridKey, gmailUser, gmailPass: !!gmailPass },
-      "No mail provider configured"
-    );
-    return res.status(500).json({ error: "Mail provider is not configured" });
-  }
 
   const transportOptionsPrimary = {
     host: "smtp.gmail.com",
