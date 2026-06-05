@@ -1,4 +1,5 @@
 import { Router } from "express";
+import dns from "dns";
 import nodemailer from "nodemailer";
 import { logger } from "../lib/logger";
 
@@ -32,22 +33,32 @@ router.post("/contact", async (req, res) => {
 ${message}`;
   const htmlBody = `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p><strong>Message:</strong></p><p>${message}</p>`;
 
+  const smtpHost = await dns.promises
+    .lookup("smtp.gmail.com", { family: 4 })
+    .then((result) => result.address)
+    .catch((err) => {
+      logger.warn({ err }, "Unable to resolve smtp.gmail.com to IPv4; falling back to host name");
+      return "smtp.gmail.com";
+    });
+
   const transportOptionsPrimary = {
-    host: "smtp.gmail.com",
+    host: smtpHost,
     port: 465,
     secure: true,
     auth: { user: gmailUser, pass: gmailPass },
+    tls: { servername: "smtp.gmail.com" },
     connectionTimeout: 5_000,
     greetingTimeout: 5_000,
     socketTimeout: 5_000,
   } as const;
 
   const transportOptionsFallback = {
-    host: "smtp.gmail.com",
+    host: smtpHost,
     port: 587,
     secure: false,
     auth: { user: gmailUser, pass: gmailPass },
     requireTLS: true,
+    tls: { servername: "smtp.gmail.com" },
     connectionTimeout: 5_000,
     greetingTimeout: 5_000,
     socketTimeout: 5_000,
