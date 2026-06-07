@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import { useState, type FormEvent } from "react";
 import { personalInfo } from "@/data/portfolio";
 import { Mail, Linkedin, ArrowUpRight, Send, AlertCircle } from "lucide-react";
 
 const ACCENT = "#18FFB0";
+
+const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const emailJsConfigured = Boolean(emailjsServiceId && emailjsTemplateId && emailjsPublicKey);
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -16,22 +22,39 @@ export default function Contact() {
     setError(null);
     setIsSubmitting(true);
 
+    const subjectLine = form.subject?.trim() || `New contact from ${form.name}`;
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      if (emailJsConfigured) {
+        await emailjs.send(
+          emailjsServiceId,
+          emailjsTemplateId,
+          {
+            from_name: form.name,
+            from_email: form.email,
+            reply_to: form.email,
+            subject: subjectLine,
+            message: form.message,
+          },
+          emailjsPublicKey,
+        );
+      } else {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
 
-      if (!response.ok) {
-        let payload: any = null;
-        try {
-          payload = await response.json();
-        } catch (e) {
-          payload = null;
+        if (!response.ok) {
+          let payload: any = null;
+          try {
+            payload = await response.json();
+          } catch (e) {
+            payload = null;
+          }
+
+          throw new Error(payload?.error || payload?.message || "Failed to send message.");
         }
-
-        throw new Error(payload?.error || payload?.message || "Failed to send message.");
       }
 
       setSubmitted(true);
@@ -155,7 +178,7 @@ export default function Contact() {
           <AlertCircle size={14} className="shrink-0 mt-0.5" style={{ color: ACCENT }} />
           <p className="text-xs text-muted-foreground leading-relaxed">
             <span className="font-medium text-foreground">Contact form is now wired</span> — submissions
-            go through the backend and can be delivered by email.
+            {emailJsConfigured ? " use EmailJS for delivery from the frontend." : " go through the backend and can be delivered by email."}
           </p>
         </motion.div>
 
