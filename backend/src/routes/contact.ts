@@ -33,13 +33,21 @@ router.post("/contact", async (req, res) => {
 ${message}`;
   const htmlBody = `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p><strong>Message:</strong></p><p>${message}</p>`;
 
-  const smtpHost = await dns.promises
-    .lookup("smtp.gmail.com", { family: 4 })
-    .then((result) => result.address)
-    .catch((err) => {
-      logger.warn({ err }, "Unable to resolve smtp.gmail.com to IPv4; falling back to host name");
-      return "smtp.gmail.com";
-    });
+  // Prefer resolving an explicit IPv4 address for smtp.gmail.com to avoid
+  // IPv6 connectivity attempts (some hosts block IPv6 egress).
+  let smtpHost = "smtp.gmail.com";
+  try {
+    const addrs = await dns.promises.resolve4("smtp.gmail.com");
+    if (addrs && addrs.length > 0) {
+      smtpHost = addrs[0];
+      logger.info({ smtpHost }, "Resolved smtp.gmail.com to IPv4 address");
+    } else {
+      logger.warn("No IPv4 addresses returned for smtp.gmail.com; using hostname");
+    }
+  } catch (err) {
+    logger.warn({ err }, "Unable to resolve smtp.gmail.com to IPv4; using hostname");
+    smtpHost = "smtp.gmail.com";
+  }
 
   const transportOptionsPrimary = {
     host: smtpHost,
