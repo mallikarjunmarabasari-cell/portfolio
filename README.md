@@ -48,14 +48,32 @@ GMAIL_APP_PASSWORD=your-app-password
 
 Use a Gmail App Password for `GMAIL_APP_PASSWORD`.
 
+## Frontend environment setup (EmailJS)
+
+This project can send contact form messages through EmailJS directly from the frontend. Set these environment variables in Vercel:
+
+```text
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+If you still want the backend fallback available, also set:
+
+```text
+VITE_API_URL=https://portfolio-maqd.onrender.com/api
+```
+
 ## Deployment
 
 - Frontend deployed on **Vercel**.
 - Backend deployed on **Render**.
-- The frontend points to the backend URL via `VITE_API_URL`.
+- EmailJS is configured in the frontend via Vercel environment variables.
+- The backend is still available as a fallback for `/api/contact` if EmailJS env vars are not configured.
 
 ## Notes
 
 - The backend uses `dotenv` for local environment configuration.
-- The contact form is wired to `/api/contact` and sends emails through Gmail SMTP.
+- The frontend uses EmailJS when `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, and `VITE_EMAILJS_PUBLIC_KEY` are set.
+- When EmailJS is not configured, the contact form falls back to the `/api/contact` backend route.
 - The vertical side strip width has been increased for better visibility.
