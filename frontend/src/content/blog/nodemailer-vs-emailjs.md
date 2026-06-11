@@ -67,7 +67,7 @@ That small check is what decides the runtime path.
 
 The diagram below shows why the `EmailJS` path is simpler. The `Nodemailer` route pushes traffic through your server, while the `EmailJS` route removes that extra hop and keeps the browser-to-email path shorter.
 
-![Email delivery architecture comparison](/notes/nodemailer-v-emailjs.png)
+![Email delivery architecture comparison](./nodemailer-v-emailjs.png)
 
 ## The bigger lesson
 
