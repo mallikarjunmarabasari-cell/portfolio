@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import { personalInfo, projects, skills } from "@/data/portfolio";
+import { blogPosts } from "@/lib/blog";
 import SkillsLanyard from "@/components/SkillsLanyard";
 import ProjectCard from "@/components/ProjectCard";
 import Footer from "@/components/Footer";
@@ -268,6 +269,68 @@ export default function Home() {
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
         </div>
+      </section>
+
+      {/* ── NOTES PREVIEW ───────────────────────────────────── */}
+      <section className="px-8 md:px-20 pb-24 max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-[2rem] border overflow-hidden"
+          style={{ borderColor: "#18FFB018", backgroundColor: "#0a0f0c" }}
+        >
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 p-8 md:p-10">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.22em] uppercase mb-4" style={{ color: ACCENT }}>
+                Notes
+              </p>
+              <h2 className="font-display font-bold text-foreground mb-4" style={{ fontSize: "clamp(1.6rem, 3vw, 2.5rem)" }}>
+                Shipping decisions as markdown, not in a CMS.
+              </h2>
+              <p className="text-muted-foreground leading-relaxed max-w-xl">
+                A local notes section keeps deployment simple, stays fast on Vite, and makes it easy to
+                publish project write-ups whenever you ship something new.
+              </p>
+              <Link href="/notes">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="mt-8 inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full font-semibold text-sm transition-all duration-200"
+                  style={{ backgroundColor: "#0D1F1A", color: ACCENT, border: `1px solid ${ACCENT}30` }}
+                >
+                  Read all notes
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full" style={{ backgroundColor: ACCENT, color: "#000" }}>
+                    <ArrowUpRight size={15} strokeWidth={2.5} />
+                  </span>
+                </motion.button>
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {blogPosts.slice(0, 2).map((post) => (
+                <Link key={post.slug} href={`/notes/${post.slug}`}>
+                  <motion.article
+                    whileHover={{ x: 4 }}
+                    className="rounded-2xl border p-5 transition-all duration-200"
+                    style={{ borderColor: "#1a1a1a", backgroundColor: "#0a0a0a" }}
+                  >
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] mb-2" style={{ color: ACCENT }}>
+                      {post.date}
+                    </p>
+                    <h3 className="font-display font-semibold text-foreground text-lg mb-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {post.description}
+                    </p>
+                  </motion.article>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────── */}

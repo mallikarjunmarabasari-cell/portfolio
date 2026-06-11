@@ -9,6 +9,8 @@ import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Education from "@/pages/Education";
 import Contact from "@/pages/Contact";
+import BlogList from "@/pages/BlogList";
+import BlogPost from "@/pages/BlogPost";
 import TopNav from "@/components/TopNav";
 import VerticalStrip from "@/components/VerticalStrip";
 
@@ -22,6 +24,8 @@ function PortfolioRoutes() {
         <Route path="/home" component={Home} />
         <Route path="/projects" component={Projects} />
         <Route path="/education" component={Education} />
+        <Route path="/notes" component={BlogList} />
+        <Route path="/notes/:slug" component={BlogPost} />
         <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
       </Switch>
